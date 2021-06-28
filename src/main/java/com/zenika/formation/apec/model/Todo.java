@@ -9,9 +9,9 @@ public class Todo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String title;
+    public String title;
     @Column
-    private boolean done;
+    public boolean done;
 
     public Todo(){}
 

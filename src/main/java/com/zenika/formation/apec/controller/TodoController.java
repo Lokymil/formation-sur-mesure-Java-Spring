@@ -1,7 +1,7 @@
 package com.zenika.formation.apec.controller;
 
 import com.zenika.formation.apec.model.Todo;
-import com.zenika.formation.apec.model.TodoCreationRequest;
+import com.zenika.formation.apec.model.TodoRequest;
 import com.zenika.formation.apec.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class TodoController {
     }
 
     @PostMapping("/todos")
-    public Todo createOne(@RequestBody TodoCreationRequest todo, HttpServletResponse response) {
+    public Todo createOne(@RequestBody TodoRequest todo, HttpServletResponse response) {
         Todo createdTodo = todoService.createOneTodo(todo.title);
         response.setStatus(HttpServletResponse.SC_CREATED);
         return createdTodo;
@@ -39,8 +39,18 @@ public class TodoController {
         }
     }
 
-    @PutMapping("/todos/{id]")
-    public String updateOne(@PathVariable("id") long id) {
-        return "Not implemented yet for id : " + id;
+    @PutMapping("/todos/{id}")
+    public Todo updateOne(@PathVariable("id") long id, @RequestBody TodoRequest todoRequest) {
+        Optional<Todo> todo = todoService.getOneTodo(id);
+        if (!todo.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found");
+        }
+
+        Todo changedTodo = todo.map(t -> {
+            t.title = todoRequest.title;
+            return t;
+        }).get();
+
+        return todoService.updateOneTodo(changedTodo);
     }
 }

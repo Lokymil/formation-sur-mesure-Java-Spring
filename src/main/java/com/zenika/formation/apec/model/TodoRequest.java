@@ -1,5 +1,5 @@
 package com.zenika.formation.apec.model;
 
-public class TodoCreationRequest {
+public class TodoRequest {
     public String title;
 }
