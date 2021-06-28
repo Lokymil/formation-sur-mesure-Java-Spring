@@ -64,6 +64,14 @@ public class TodoController {
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
+    @DeleteMapping("/todos/{id}")
+    public void deleteOne(@PathVariable("id") long id, HttpServletResponse response) {
+        Todo todoToUpdate = getTodo(id);
+
+        todoService.deleteOneTodo(todoToUpdate);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
+
     private Todo getTodo(long id) {
         Optional<Todo> todo = todoService.getOneTodo(id);
         if (!todo.isPresent()) {

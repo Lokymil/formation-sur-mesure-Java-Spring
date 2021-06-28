@@ -32,6 +32,10 @@ public class TodoService {
         return todoRepository.save(todo);
     }
 
+    public void deleteOneTodo(Todo todo) {
+        todoRepository.delete(todo);
+    }
+
     public List<String> validateTodo(Todo todo) {
         List<String> errors = new ArrayList<>();
         if (todo.title == null || todo.title.length() == 0) {
