@@ -24,11 +24,24 @@ public class TodoService {
         return todoRepository.findById(id);
     }
 
-    public Todo createOneTodo(String title) {
-        return todoRepository.save(new Todo(title));
+    public Todo createOneTodo(Todo todo) {
+        return todoRepository.save(todo);
     }
 
     public Todo updateOneTodo(Todo todo) {
         return todoRepository.save(todo);
+    }
+
+    public List<String> validateTodo(Todo todo) {
+        List<String> errors = new ArrayList<>();
+        if (todo.title == null || todo.title.length() == 0) {
+            errors.add("Title is required");
+        }
+
+        if (todo.title != null && todo.title.length() > 100) {
+            errors.add("Title must me bellow 100 characters");
+        }
+
+        return errors;
     }
 }
