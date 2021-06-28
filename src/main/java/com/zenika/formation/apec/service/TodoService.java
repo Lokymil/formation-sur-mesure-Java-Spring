@@ -23,4 +23,8 @@ public class TodoService {
     public Optional<Todo> getOneTodo(long id) {
         return todoRepository.findById(id);
     }
+
+    public Todo createOneTodo(String title) {
+        return todoRepository.save(new Todo(title));
+    }
 }
