@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoService {
@@ -17,5 +18,9 @@ public class TodoService {
         List<Todo> todos = new ArrayList<>();
         todoRepository.findAll().forEach(todos::add);
         return todos;
+    }
+
+    public Optional<Todo> getOneTodo(long id) {
+        return todoRepository.findById(id);
     }
 }
