@@ -53,4 +53,36 @@ public class TodoController {
 
         return todoService.updateOneTodo(changedTodo);
     }
+
+    @PostMapping("/todos/{id}/done")
+    public void doneOne(@PathVariable("id") long id, HttpServletResponse response) {
+        Optional<Todo> todo = todoService.getOneTodo(id);
+        if (!todo.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found");
+        }
+
+        Todo changedTodo = todo.map(t -> {
+            t.done = true;
+            return t;
+        }).get();
+
+        todoService.updateOneTodo(changedTodo);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
+
+    @PostMapping("/todos/{id}/undo")
+    public void undoOne(@PathVariable("id") long id, HttpServletResponse response) {
+        Optional<Todo> todo = todoService.getOneTodo(id);
+        if (!todo.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found");
+        }
+
+        Todo changedTodo = todo.map(t -> {
+            t.done = false;
+            return t;
+        }).get();
+
+        todoService.updateOneTodo(changedTodo);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
 }
